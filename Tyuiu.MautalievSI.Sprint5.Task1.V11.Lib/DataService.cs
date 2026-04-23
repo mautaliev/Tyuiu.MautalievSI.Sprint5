@@ -2,52 +2,41 @@
 
 namespace Tyuiu.MautalievSI.Sprint5.Task1.V11.Lib
 {
-    public class DataService : ISprint5Task1V25
+    public class DataService : ISprint5Task1V11
     {
         public string SaveToFileTextData(int startValue, int stopValue)
         {
-            // Устанавливаем путь к файлу
-            string filePath = Path.Combine(Path.GetTempPath(), "OutPutFileTask1.txt");
-
-            // Создаем текстовый файл
-            using (StreamWriter writer = new StreamWriter(filePath))
+            DataService ds = new();
+            string path = Path.GetTempFileName();
+            double y;
+            string str;
+            for (int x = startValue; x <= stopValue; x++)
             {
-
-                // Выводим таблицу на консоль
-                string text = "";
-                // Проходим по диапазону значений
-                for (int x = startValue; x <= stopValue; x++)
+                y = ds.Calculate(x);
+                str = Convert.ToString(y);
+                if (x != stopValue)
                 {
-                    double fx = CalculateFunction(x);
-
-                    fx = Math.Round(fx, 2);
-                    if (fx % 1 == 0)
-                    {
-                        fx = Convert.ToInt32(fx);
-                    }
-                    text += fx.ToString() + "\n";
+                    File.AppendAllText(path, str + Environment.NewLine);
                 }
-                text = text.Replace('.', ',');
-                Console.WriteLine(text);
-                writer.Write(text);
+                else
+                {
+                    File.AppendAllText(path, str);
+                }
             }
+            return path;
 
-            return filePath;
         }
-
-        private double CalculateFunction(int x)
+        public double Calculate(int x)
         {
-            // Проверка деления на ноль (если знаменатель равен 0, возвращаем 0)
-            double denominator = 3 * x + 1.2;
-            if (denominator == 0)
+            if (3 * x - 1 == 0)
             {
                 return 0;
             }
-
-            // Вычисляем F(x)
-            double fx = (2 * Math.Sin(x) / denominator) + Math.Cos(x) - 7 * x * 2;
-
-            return fx;
+            else
+            {
+                double F = Math.Round((Math.Sin(x) - 2 * x) / (3 * x - 1) + Math.Sin(x) - 3 * x + 2, 2);
+                return F;
+            }
         }
     }
 }
