@@ -6,30 +6,31 @@ namespace Tyuiu.MautalievSI.Sprint5.Task2.V8.Lib
     {
         public string SaveToFileTextData(int[,] matrix)
         {
-            string path = $@"{Directory.GetCurrentDirectory()}\OutPutFileTask2.csv";
+            string tempPath = Path.GetTempPath();
+            string filePath = Path.Combine(tempPath, "OutPutFileTask2.csv");
 
-            FileInfo fileInfo = new FileInfo(path);
+            FileInfo fileInfo = new FileInfo(filePath);
             bool fileExists = fileInfo.Exists;
 
             if (fileExists)
             {
-                File.Delete(path);
+                File.Delete(filePath);
             }
 
             int rows = matrix.GetUpperBound(0) + 1;
             int columns = matrix.Length / rows;
 
-            for (int i = 0; i < columns; i++)
+            for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    if (matrix[i, j] > 0)
-                    {
-                        matrix[i, j] = 1;
-                    }
                     if (matrix[i, j] < 0)
                     {
                         matrix[i, j] = 0;
+                    }
+                    else
+                    {
+                        matrix[i, j] = 1;
                     }
                 }
             }
@@ -49,17 +50,20 @@ namespace Tyuiu.MautalievSI.Sprint5.Task2.V8.Lib
                         str = str + matrix[i, j];
                     }
                 }
+
                 if (i != rows - 1)
                 {
-                    File.AppendAllText(path, str + Environment.NewLine);
+                    File.AppendAllText(filePath, str + Environment.NewLine);
                 }
                 else
                 {
-                    File.AppendAllText(path, str);
+                    File.AppendAllText(filePath, str);
                 }
+
                 str = "";
             }
-            return path;
+
+            return filePath;
         }
     }
 }
