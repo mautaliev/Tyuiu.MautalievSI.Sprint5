@@ -50,3 +50,4 @@ namespace Tyuiu.MautalievSI.Sprint5.Task1.V11.Lib
             return fx;
         }
     }
+}
