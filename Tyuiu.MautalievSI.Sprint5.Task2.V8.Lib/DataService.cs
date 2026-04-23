@@ -2,7 +2,6 @@
 
 namespace Tyuiu.MautalievSI.Sprint5.Task2.V8.Lib
 {
-{
     public class DataService : ISprint5Task2V8
     {
         public string SaveToFileTextData(int[,] matrix)
